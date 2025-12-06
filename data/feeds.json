@@ -1,0 +1,9 @@
+{
+    "feeds": [
+        "https://feeds.feedburner.com/geeknews",
+        "https://rss.cnn.com/rss/edition.rss",
+        "https://www.bloter.net/rss/allArticle.xml",
+        "https://news.hada.io/rss/news",
+        "https://yozm.wishket.com/magazine/feed/"
+    ]
+}
