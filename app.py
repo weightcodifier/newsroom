@@ -18,12 +18,35 @@ if "visited" not in st.session_state:
     st.session_state.visited = False
 
 # 필수 설정 확인 (Gemini API Key만 필요)
-if "GEMINI_API_KEY" not in st.secrets:
-    st.error("🚨 .streamlit/secrets.toml에 GEMINI_API_KEY가 없습니다.")
-    st.info("💡 Google AI Studio에서 Gemini API Key를 발급받아 secrets.toml에 추가하세요.")
+try:
+    if "GEMINI_API_KEY" not in st.secrets:
+        st.error("🚨 GEMINI_API_KEY가 설정되지 않았습니다.")
+        st.markdown("""
+        ### 설정 방법:
+        
+        **로컬 환경:**
+        - `.streamlit/secrets.toml` 파일에 추가:
+        ```toml
+        GEMINI_API_KEY = "여기에_키_입력"
+        ```
+        
+        **Streamlit Cloud:**
+        1. Streamlit Cloud 앱 설정 페이지로 이동
+        2. "Secrets" 탭 클릭
+        3. 아래 내용을 입력:
+        ```toml
+        GEMINI_API_KEY = "여기에_키_입력"
+        ```
+        4. "Save" 클릭 후 앱 재배포
+        """)
+        st.info("💡 Google AI Studio (https://aistudio.google.com)에서 Gemini API Key를 발급받으세요.")
+        st.stop()
+    
+    gemini_key = st.secrets["GEMINI_API_KEY"]
+except Exception as e:
+    st.error(f"🚨 Secrets 읽기 오류: {str(e)}")
+    st.info("💡 Streamlit Cloud를 사용하는 경우, 앱 설정의 Secrets 탭에서 GEMINI_API_KEY를 설정하세요.")
     st.stop()
-
-gemini_key = st.secrets["GEMINI_API_KEY"]
 
 # 방문 통계 업데이트 (한 세션당 1번만)
 if not st.session_state.visited:
